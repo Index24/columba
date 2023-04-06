@@ -30,12 +30,16 @@ const results = { pattern: 10 };
     justify-content: center;
     grid-template-columns: minmax(0, 344px);
     row-gap: 60px;
+  }
 
-    @media (min-width: 768px) {
+  @media (min-width: 768px) {
+    main {
       grid-template-columns: minmax(0, 600px);
     }
+  }
 
-    @media (min-width: 1024px) {
+  @media (min-width: 1024px) {
+    main {
       align-items: start;
       grid-template-columns: minmax(0, 1024px);
       row-gap: 80px;
@@ -46,13 +50,17 @@ const results = { pattern: 10 };
     display: grid;
     row-gap: 40px;
     justify-items: center;
+  }
 
-    @media (min-width: 768px) {
+  @media (min-width: 768px) {
+    .hero {
       justify-items: start;
       row-gap: 24px;
     }
+  }
 
-    @media (min-width: 1024px) {
+  @media (min-width: 1024px) {
+    .hero {
       align-items: center;
       grid-auto-flow: column;
       grid-template-columns: 600px 400px;

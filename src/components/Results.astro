@@ -55,8 +55,10 @@ const windowItems = Array.from({ length: windowCount }, (_, i) => ({
   .results {
     display: grid;
     gap: 24px;
+  }
 
-    @media (min-width: 1024px) {
+  @media (min-width: 1024px) {
+    .results {
       grid-auto-flow: column;
     }
   }
@@ -71,8 +73,10 @@ const windowItems = Array.from({ length: windowCount }, (_, i) => ({
     color: #252525;
 
     padding: 60px 24px;
+  }
 
-    @media (min-width: 768px) {
+  @media (min-width: 768px) {
+    .result {
       padding: 60px 80px;
     }
   }
