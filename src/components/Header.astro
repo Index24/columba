@@ -1,0 +1,38 @@
+---
+import Logo from "./Logo.astro";
+---
+
+<header>
+  <Logo />
+  <button class="reset-button">Rester test</button>
+</header>
+
+<style>
+  header {
+    height: 88px;
+
+    padding: 24px 16px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (min-width: 768px) {
+      padding: 24px 60px;
+    }
+  }
+
+  .reset-button {
+    border: none;
+    background: transparent;
+    padding: 8 px 0;
+
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 120%;
+
+    color: #252525;
+  }
+</style>
