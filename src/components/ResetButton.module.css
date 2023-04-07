@@ -1,0 +1,17 @@
+.resetButton {
+  border: none;
+  background: transparent;
+  padding: 8 px 0;
+
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 120%;
+
+  color: #252525;
+}
+
+.resetButton:hover {
+  cursor: pointer;
+}
