@@ -3,10 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Description from "../components/Description.astro";
 import UploadButton from "../components/UploadButton";
-import Results from "../components/Results.astro";
-
-const results = { pattern: 10 };
-// const results = undefined;
+import Results from "../components/Results";
 ---
 
 <Layout title="Columba">
@@ -14,9 +11,9 @@ const results = { pattern: 10 };
   <main>
     <div class="hero">
       <Description />
-      <UploadButton client:visible />
+      <UploadButton client:load />
     </div>
-    {results ? <Results pattern={results.pattern} /> : null}
+    <Results client:load />
   </main>
 </Layout>
 
