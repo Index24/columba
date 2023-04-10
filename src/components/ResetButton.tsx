@@ -13,7 +13,7 @@ const ResetButton = () => {
 
   return (
     <button className={styles.resetButton} onClick={handleClick}>
-      Rester test
+      Reset test
     </button>
   );
 };
