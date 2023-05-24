@@ -58,6 +58,13 @@ const UploadButton = () => {
     });
   };
 
+  // get image source string from base64
+  const getImageSrc = (base64: string) => {
+    return `data:image/${base64.split(";")[0].split("/")[1]};base64,${
+      base64.split(",")[1]
+    }`;
+  };
+
   const previewAnduploadImage = async (image: File) => {
     const base64 = (await getBase64(image)).split(",")[1];
 
@@ -84,7 +91,7 @@ const UploadButton = () => {
 
       updateResult({
         pattern: data.pattern,
-        imgUrl: `data:image/${image.type};base64${data.image}`,
+        imgUrl: `data:${image.type};base64,${data.image}`,
       });
     } catch (error) {
       console.error(error);
