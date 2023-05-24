@@ -48,42 +48,47 @@ const UploadButton = () => {
     return true;
   };
 
-  const previewAnduploadImage = (image: File) => {
-    // create FormData
-    var formData = new FormData();
-    formData.append("image", image);
+  const getBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
 
-    const randomValue = Math.floor(Math.random() * 100);
-    updateResult({ pattern: randomValue, imgUrl: URL.createObjectURL(image) });
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const previewAnduploadImage = async (image: File) => {
+    const base64 = (await getBase64(image)).split(",")[1];
 
     // upload the image
-    /*
-    const uploadLocation = "https://api.imgbb.com/1/upload";
-    formData.append("key", "bb63bee9d9846c8d5b7947bcdb4b3573");
+    const uploadLocation = "https://demo.columba.app/api/process-image";
+    const uploadData = { image: base64 };
+    try {
+      const response = await fetch(uploadLocation, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        body: JSON.stringify(uploadData),
+      });
 
-    var ajax = new XMLHttpRequest();
-    ajax.open("POST", uploadLocation, true);
+      type JSONResponse = {
+        image: string;
+        pattern: number;
+        fertile_window: boolean;
+      };
 
-    ajax.onreadystatechange = function (e) {
-      if (ajax.readyState === 4) {
-        if (ajax.status === 200) {
-          // done!
-        } else {
-          // error!
-        }
-      }
-    };
+      const data: JSONResponse = await response.json();
 
-    ajax.upload.onprogress = function (e) {
-      // change progress
-      // (reduce the width of overlay)
-
-      var perc = (e.loaded / e.total) * 100 || 100,
-        width = 100 - perc;
-    };
-
-    ajax.send(formData);
-    */
+      updateResult({
+        pattern: data.pattern,
+        imgUrl: `data:image/${image.type};base64${data.image}`,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleDrop: DragEventHandler<HTMLElement> = (dragEvent) => {
