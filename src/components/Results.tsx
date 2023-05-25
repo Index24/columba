@@ -19,9 +19,8 @@ const Results = () => {
   }
 
   const restPattern = 100 - pattern;
-  const columns = `${pattern}fr ${restPattern}fr`;
 
-  const isSuccess = pattern > 50;
+  const isSuccess = $resultValue.fertileWindow;
 
   const patternItems = [
     { color: isSuccess ? "#62C584" : "#F95D51" },

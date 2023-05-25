@@ -1,5 +1,5 @@
 import styles from "./ResetButton.module.css";
-import { updateResult, result } from "../store/result";
+import { updateResult, result, updateImgSrc } from "../store/result";
 import { useStore } from "@nanostores/react";
 
 const ResetButton = () => {
@@ -7,6 +7,7 @@ const ResetButton = () => {
 
   const handleClick = () => {
     updateResult(null);
+    updateImgSrc("");
   };
 
   if (!$resultValue) return null;

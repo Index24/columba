@@ -5,12 +5,13 @@ import type {
   MouseEventHandler,
 } from "react";
 import styles from "./UploadButton.module.css";
-import { result, updateResult } from "../store/result";
+import { updateResult, updateImgSrc, imgSrc } from "../store/result";
 import { useStore } from "@nanostores/react";
 
 const UploadButton = () => {
-  const $resultValue = useStore(result);
+  const $imgSrc = useStore(imgSrc);
   const [isDragActive, setDragActive] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDrag: DragEventHandler<HTMLElement> = (dragEvent) => {
@@ -60,6 +61,8 @@ const UploadButton = () => {
 
   const previewAnduploadImage = async (image: File) => {
     const base64 = (await getBase64(image)).split(",")[1];
+    setIsProcessing(true);
+    updateImgSrc(URL.createObjectURL(image));
 
     // upload the image
     const uploadLocation = "https://demo.columba.app/api/process-image";
@@ -82,9 +85,11 @@ const UploadButton = () => {
 
       const data: JSONResponse = await response.json();
 
+      setIsProcessing(false);
+      updateImgSrc(`data:${image.type};base64,${data.image}`);
       updateResult({
         pattern: data.pattern,
-        imgUrl: `data:${image.type};base64,${data.image}`,
+        fertileWindow: data.fertile_window,
       });
     } catch (error) {
       console.error(error);
@@ -130,20 +135,25 @@ const UploadButton = () => {
         onChange={handleChange}
         onClick={handleClick}
       />
-      <label
-        htmlFor={"upload-file-input"}
-        className={`${styles.draggableArea} ${
-          isDragActive ? styles.dragActive : ""
-        }`}
-      >
-        <span>Upload Photo Here</span>
-      </label>
-      {$resultValue?.imgUrl ? (
+      {!isProcessing ? (
+        <label
+          htmlFor={"upload-file-input"}
+          className={`${styles.draggableArea} ${
+            isDragActive ? styles.dragActive : ""
+          }`}
+        >
+          <span>Upload Photo Here</span>
+        </label>
+      ) : null}
+      {$imgSrc ? (
         <img
-          src={$resultValue.imgUrl}
+          src={$imgSrc}
           className={styles.previewImage}
           alt="preview image"
         />
+      ) : null}
+      {isProcessing ? (
+        <div className={styles.processing}>Processing...</div>
       ) : null}
       {isDragActive && (
         <div
